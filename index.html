@@ -132,36 +132,30 @@
     "cta":"Começar"
   },
   "steps":[
+    {"type":"fields","eyebrow":"Vamos começar","title":"Como a gente fala com você?","hint":"Deixe seu contato pra ser avisado quando a Menta chegar 🩵","fields":[
+      {"key":"nome","label":"Nome","input":"text","placeholder":"Seu nome","required":true},
+      {"key":"telefone","label":"Telefone / WhatsApp","input":"tel","placeholder":"(11) 90000-0000","required":true},
+      {"key":"email","label":"E-mail","input":"email","placeholder":"seu@email.com","required":true}
+    ]},
     {"type":"radio","required":true,"eyebrow":"Sobre você","title":"Qual sua idade?","options":["Menos de 18","18 a 24","25 a 30","31 a 35","35 a 40","40 a 50","50+"]},
     {"type":"radio","required":true,"other":true,"eyebrow":"Sobre você","title":"Qual sua ocupação?","options":["Estudante","CLT","Autônomo","Empresário","Freelancer"]},
     {"type":"radio","required":true,"eyebrow":"Sobre você","title":"Qual sua renda mensal aproximada?","options":["Até R$ 2.000","R$ 2.000 a R$ 4.000","R$ 4.000 a R$ 6.000","R$ 6.000 a R$ 10.000","Acima de R$ 10.000"]},
     {"type":"scale","required":true,"eyebrow":"Seu momento","title":"Como você avalia sua organização financeira hoje?","min":1,"max":10,"left":"Não sei para onde meu dinheiro vai","right":"Perfeita"},
     {"type":"radio","required":true,"eyebrow":"Seu momento","title":"Qual destas frases mais representa sua situação?","options":["Sei exatamente para onde meu dinheiro vai.","Tenho uma ideia geral.","Frequentemente me surpreendo com gastos.","Não faço ideia para onde meu dinheiro vai."]},
     {"type":"checkbox","required":true,"other":true,"eyebrow":"Dificuldades","title":"Qual é sua maior dificuldade financeira atualmente?","hint":"Pode marcar mais de uma.","options":["Gastar demais","Não conseguir economizar","Não conseguir investir","Controlar cartão de crédito","Organizar contas","Planejar objetivos"]},
-    {"type":"radio","required":true,"eyebrow":"Hábitos","title":"Com que frequência você verifica seus gastos?","options":["Várias vezes ao dia","Todos os dias","Algumas vezes por semana","Algumas vezes por mês","Quase nunca"]},
     {"type":"checkbox","required":true,"other":true,"eyebrow":"Hábitos","title":"Como você controla suas finanças hoje?","hint":"Pode marcar mais de uma.","options":["Não controlo","Papel","Planilha","Aplicativo","Banco"]},
     {"type":"text","required":true,"eyebrow":"Hábitos","title":"O que mais te incomoda na forma como controla suas finanças hoje?","placeholder":"Sua resposta"},
     {"type":"radio","required":true,"eyebrow":"Apps financeiros","title":"Você já utilizou algum aplicativo financeiro?","options":["Sim","Não"]},
     {"type":"text","required":false,"eyebrow":"Apps financeiros","title":"Qual?","placeholder":"Sua resposta"},
     {"type":"text","required":false,"eyebrow":"Apps financeiros","title":"Por que você usa ou deixou de usar esse aplicativo?","placeholder":"Sua resposta"},
     {"type":"radio","required":true,"other":true,"eyebrow":"Objetivos","title":"Qual seu principal objetivo financeiro hoje?","options":["Fazer uma reserva de emergência","Viajar","Comprar carro","Comprar imóvel","Sair das dívidas","Investir","Organizar as contas"]},
-    {"type":"radio","required":true,"eyebrow":"Objetivos","title":"Você possui metas financeiras definidas?","options":["Sim","Não"]},
-    {"type":"text","required":true,"eyebrow":"Objetivos","title":"O que mais dificulta atingir essas metas?","placeholder":"Sua resposta"},
     {"type":"radio","required":true,"eyebrow":"A Menta","title":"Qual dessas funcionalidades parece mais útil?","options":["Conexão automática com bancos","Categorizar gastos automaticamente","IA financeira personalizada","Controle de metas","Relatórios financeiros","Alertas inteligentes"]},
     {"type":"text","required":true,"eyebrow":"A Menta","title":"Qual dessas funcionalidades faria você usar o app todos os dias?","placeholder":"Sua resposta"},
     {"type":"text","required":true,"eyebrow":"A Menta","title":"Se a Menta pudesse resolver apenas UM problema para você, qual seria?","placeholder":"Sua resposta"},
-    {"type":"radio","required":true,"eyebrow":"Plano","title":"Quanto você acredita que vale um aplicativo que realmente te ajudasse a economizar dinheiro todos os meses?","options":["Não pagaria","Até R$ 9,90","Até R$ 19,90","Até R$ 29,90","Até R$ 39,90","Mais de R$ 39,90"]},
-    {"type":"text","required":true,"eyebrow":"Plano","title":"O que faria você assinar um plano premium?","placeholder":"Sua resposta"},
-    {"type":"text","required":false,"eyebrow":"Plano","title":"O que impediria você de assinar?","placeholder":"Sua resposta"},
     {"type":"radio","required":true,"eyebrow":"No fundo","title":"Quando você pensa em dinheiro, qual sentimento aparece primeiro?","options":["Ansiedade","Segurança","Medo","Tranquilidade","Frustração","Esperança"]},
     {"type":"text","required":true,"eyebrow":"No fundo","title":"Complete a frase:","hint":"\"Eu gostaria de ter mais controle financeiro porque…\"","placeholder":"Sua resposta"},
     {"type":"text","required":true,"eyebrow":"No fundo","title":"Complete a frase:","hint":"\"Meu maior problema com dinheiro hoje é…\"","placeholder":"Sua resposta"},
-    {"type":"text","required":true,"eyebrow":"No fundo","title":"Se existisse um aplicativo perfeito para cuidar das suas finanças, o que ele faria por você?","placeholder":"Sua resposta"},
-    {"type":"fields","eyebrow":"Pra finalizar","title":"Como a gente fala com você?","hint":"Deixe seu contato pra ser avisado quando a Menta chegar 🩵","fields":[
-      {"key":"nome","label":"Nome","input":"text","placeholder":"Seu nome","required":true},
-      {"key":"telefone","label":"Telefone / WhatsApp","input":"tel","placeholder":"(11) 90000-0000","required":true},
-      {"key":"email","label":"E-mail","input":"email","placeholder":"seu@email.com","required":true}
-    ]}
+    {"type":"text","required":true,"eyebrow":"No fundo","title":"Se existisse um aplicativo perfeito para cuidar das suas finanças, o que ele faria por você?","placeholder":"Sua resposta"}
   ],
   "done":{"title":"Prontinho! Obrigado 🩵","lead":"Suas respostas vão ajudar a construir uma Menta que faça sentido de verdade pra pessoas como você."}
 }
