@@ -156,7 +156,12 @@
     {"type":"radio","required":true,"eyebrow":"No fundo","title":"Quando você pensa em dinheiro, qual sentimento aparece primeiro?","options":["Ansiedade","Segurança","Medo","Tranquilidade","Frustração","Esperança"]},
     {"type":"text","required":true,"eyebrow":"No fundo","title":"Complete a frase:","hint":"\"Eu gostaria de ter mais controle financeiro porque…\"","placeholder":"Sua resposta"},
     {"type":"text","required":true,"eyebrow":"No fundo","title":"Complete a frase:","hint":"\"Meu maior problema com dinheiro hoje é…\"","placeholder":"Sua resposta"},
-    {"type":"text","required":true,"eyebrow":"No fundo","title":"Se existisse um aplicativo perfeito para cuidar das suas finanças, o que ele faria por você?","placeholder":"Sua resposta"}
+    {"type":"text","required":true,"eyebrow":"No fundo","title":"Se existisse um aplicativo perfeito para cuidar das suas finanças, o que ele faria por você?","placeholder":"Sua resposta"},
+    {"type":"fields","eyebrow":"Pra finalizar","title":"Como a gente fala com você?","hint":"Deixe seu contato pra ser avisado quando a Menta chegar 🩵","fields":[
+      {"key":"nome","label":"Nome","input":"text","placeholder":"Seu nome","required":true},
+      {"key":"telefone","label":"Telefone / WhatsApp","input":"tel","placeholder":"(11) 90000-0000","required":true},
+      {"key":"email","label":"E-mail","input":"email","placeholder":"seu@email.com","required":true}
+    ]}
   ],
   "done":{"title":"Prontinho! Obrigado 🩵","lead":"Suas respostas vão ajudar a construir uma Menta que faça sentido de verdade pra pessoas como você."}
 }
@@ -217,6 +222,12 @@ function step(s){
       <div class="scale-ends"><span>${esc(s.left)}</span><span>${esc(s.right)}</span></div>`;
   } else if(s.type==='text'){
     body=`<div class="field"><input type="${s.input||'text'}" id="txt" placeholder="${esc(s.placeholder||'')}" value="${esc(answers[key]||'')}"></div>`;
+  } else if(s.type==='fields'){
+    const v=answers[key]||{};
+    body=`<div class="field" style="display:grid;gap:13px">`+s.fields.map(f=>
+      `<div><label style="display:block;font-size:13px;font-weight:600;color:var(--menta-500);margin-bottom:6px">${esc(f.label)}${f.required?'':' (opcional)'}</label>`+
+      `<input type="${f.input||'text'}" data-fkey="${f.key}" inputmode="${f.input==='tel'?'tel':(f.input==='email'?'email':'text')}" autocomplete="${f.input==='tel'?'tel':(f.input==='email'?'email':'name')}" placeholder="${esc(f.placeholder||'')}" value="${esc(v[f.key]||'')}"></div>`
+    ).join('')+`</div>`;
   }
 
   root.innerHTML=`<div class="panel"><div class="eyebrow">${s.eyebrow||'Menta'}</div><h2>${s.title}</h2>
@@ -254,10 +265,22 @@ function step(s){
   }
   if(s.other){const ot=document.getElementById('otherTxt');if(ot)ot.oninput=()=>{otherText[key]=ot.value;hideNote();};}
   if(s.type==='text'){const tx=document.getElementById('txt');tx.oninput=()=>{answers[key]=tx.value;hideNote();};}
+  if(s.type==='fields'){answers[key]=answers[key]||{};
+    root.querySelectorAll('input[data-fkey]').forEach(inp=>{inp.oninput=()=>{answers[key][inp.dataset.fkey]=inp.value;hideNote();};});}
   refreshOther();
 }
 
 function next(s,key){
+  if(s.type==='fields'){
+    const v=answers[key]||{};
+    for(const f of s.fields){
+      const val=(v[f.key]||'').trim();
+      if(f.required&&!val){showNote('Preencha '+f.label.toLowerCase()+' pra seguir 🙂');return;}
+      if(val&&f.input==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){showNote('Confira o e-mail digitado.');return;}
+      if(val&&f.input==='tel'&&val.replace(/\D/g,'').length<10){showNote('Confira o telefone (com DDD).');return;}
+    }
+    idx++;render();return;
+  }
   if(s.required){
     const a=answers[key];
     const empty=a==null||a===''||(Array.isArray(a)&&!a.length);
@@ -283,14 +306,20 @@ function fmt(s,i){
 
 function sendData(){
   if(!ENDPOINT||SENT)return;SENT=true;
-  const perguntas=CFG.steps.map(s=>s.hint?`${s.title} ${s.hint}`:s.title);
-  const respostas=CFG.steps.map((s,i)=>fmt(s,i));
+  const perguntas=[],respostas=[];
+  CFG.steps.forEach((s,i)=>{
+    if(s.type==='fields'){s.fields.forEach(f=>{perguntas.push(f.label);respostas.push(((answers[i]||{})[f.key]||'').trim());});}
+    else{perguntas.push(s.hint?`${s.title} ${s.hint}`:s.title);respostas.push(fmt(s,i));}
+  });
   try{fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({perguntas,respostas})});}catch(e){}
 }
 
 function done(){
   sendData();burst();const d=CFG.done;
-  const rows=CFG.steps.map((s,i)=>{const a=fmt(s,i);if(!a)return'';
+  const rows=CFG.steps.map((s,i)=>{
+    if(s.type==='fields'){return s.fields.map(f=>{const v=((answers[i]||{})[f.key]||'').trim();
+      return v?`<div class="sumrow"><span class="q">${esc(f.label)}</span><span class="a">${esc(v)}</span></div>`:'';}).join('');}
+    const a=fmt(s,i);if(!a)return'';
     return `<div class="sumrow"><span class="q">${s.title}</span><span class="a">${esc(a)}</span></div>`;}).join('');
   root.innerHTML=`<div class="panel done"><div class="seal"><img src="${SYMBOL}" alt="Menta"></div>
     <h2>${d.title}</h2><p class="lead">${d.lead}</p>
